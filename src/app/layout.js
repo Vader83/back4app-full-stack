@@ -1,3 +1,4 @@
+import "./globals.css";
 import {Providers} from "@/app/providers";
 import {Container} from "@chakra-ui/react";
 import Header from "@/app/components/header";

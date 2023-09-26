@@ -35,21 +35,14 @@ export default function Home() {
   return (
     <>
       <Stack>
-        <Card>
-          <CardBody>
-            <Breadcrumb>
-              <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink as={NextLink} href="#">Blog</BreadcrumbLink>
-              </BreadcrumbItem>
-            </Breadcrumb>
-          </CardBody>
-        </Card>
         {articles.map((article) => (
           <Card key={article.slug}>
             <CardBody>
               <Stack>
                 <Heading size="lg">
-                  <Link as={NextLink} href={`/${article.slug}`}>{article.title}</Link>
+                  <Link as={NextLink} href={article.slug}>
+                    {article.title}
+                  </Link>
                 </Heading>
                 <Text>{article.title}</Text>
               </Stack>

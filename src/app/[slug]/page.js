@@ -1,28 +1,21 @@
-import NextLink from "next/link";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Card,
-  CardBody,
-  Heading,
-  Image,
-  Stack,
-  Text
-} from "@chakra-ui/react";
+"use client";
+
+import {Card, CardBody, Heading, Image, Stack, Text} from "@chakra-ui/react";
+import ReactMarkdown from "react-markdown";
+import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import {formatDate} from "@/app/util/date-util";
 
 const article = {
   slug: "my-first-article",
   title: "My first article!",
-  cover: "https://i.ibb.co/0B0yqmc/back4app-geolocation-app-cover.png",
+  cover: "https://i.ibb.co/tqGXfGZ/android-app-cover.png",
   shortContent: "This is my first article!",
   content: `
   This is my **article content**.
   
   It can have multiple lines.
   
-  ## Markdown is awesome!
+  #### Markdown is awesome!
   
   It should be formatted as [Markdown](https://en.wikipedia.org/wiki/Markdown).
   
@@ -34,6 +27,10 @@ const article = {
   And an unordered list:
   - One
   - Two
+  
+  Here's a picture of a cute cat:
+  
+  ![Cute Cat](https://i.ibb.co/wYnFtpy/cute-cat.png)
   `,
   createdAt: "2023-08-01T00:00:00.000Z",
   updatedAt: "2023-08-01T00:00:00.000Z",
@@ -44,18 +41,6 @@ export default function Article({params}) {
     <Stack>
       <Card>
         <CardBody>
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <BreadcrumbLink as={NextLink} href="/">Blog</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink as={NextLink} href="#">{article.title}</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </CardBody>
-      </Card>
-      <Card>
-        <CardBody>
           <Stack>
             <Heading as="h2" size="lg">{article.title}</Heading>
             <Text>
@@ -63,7 +48,7 @@ export default function Article({params}) {
               {article.createdAt !== article.updatedAt ? `, updated on: ${formatDate(article.updatedAt)}` : ""}
             </Text>
             <Image src={article.cover} alt={`${article.title} cover`} borderRadius="lg"/>
-            <Text>{article.content}</Text>
+            <ReactMarkdown components={ChakraUIRenderer()} children={article.content} skipHtml/>
           </Stack>
         </CardBody>
       </Card>
