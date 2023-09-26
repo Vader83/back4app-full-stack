@@ -1,50 +1,54 @@
-import NextLink from "next/link";
-import {Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, CardBody, Heading, Link, Stack, Text} from "@chakra-ui/react";
+"use client";
 
-const articles = [
-  {
-    slug: "my-first-article",
-    title: "My first article!",
-    cover: "https://i.ibb.co/0B0yqmc/back4app-geolocation-app-cover.png",
-    shortContent: "This is my first article!",
-    content: "",
-    createdAt: "2023-08-01T00:00:00.000Z",
-    updatedAt: "2023-08-01T00:00:00.000Z",
-  },
-  {
-    slug: "my-second-article",
-    title: "My second article!",
-    cover: "https://i.ibb.co/0B0yqmc/back4app-geolocation-app-cover.png",
-    shortContent: "This is my second article!",
-    content: "",
-    createdAt: "2023-08-01T00:00:00.000Z",
-    updatedAt: "2023-08-01T00:00:00.000Z",
-  },
-  {
-    slug: "my-third-article",
-    title: "My third article!",
-    cover: "https://i.ibb.co/0B0yqmc/back4app-geolocation-app-cover.png",
-    shortContent: "This is my third article!",
-    content: "",
-    createdAt: "2023-08-01T00:00:00.000Z",
-    updatedAt: "2023-08-01T00:00:00.000Z",
-  }
-];
+import NextLink from "next/link";
+import {useContext, useEffect, useState} from "react";
+import ParseContext from "@/app/context/parseContext";
+import {Card, CardBody, Heading, Link, Spinner, Stack, Text} from "@chakra-ui/react";
 
 export default function Home() {
+
+  const parse = useContext(ParseContext);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const query = new parse.Query("Article");
+        query.descending("createdAt");
+        const articles = await query.find();
+        setArticles(articles);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) {
+    return <Spinner size="lg"/>;
+  }
+
+  if (error) {
+    return <Text color="red">{error}</Text>
+  }
+
   return (
     <>
       <Stack>
         {articles.map((article) => (
-          <Card key={article.slug}>
+          <Card key={article.get("slug")}>
             <CardBody>
               <Stack>
                 <Heading size="lg">
-                  <Link as={NextLink} href={article.slug}>
-                    {article.title}
+                  <Link as={NextLink} href={article.get("slug")}>
+                    {article.get("title")}
                   </Link>
                 </Heading>
-                <Text>{article.title}</Text>
+                <Text>{article.get("title")}</Text>
               </Stack>
             </CardBody>
           </Card>
