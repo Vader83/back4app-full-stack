@@ -1,57 +1,65 @@
 "use client";
 
-import {Card, CardBody, Heading, Image, Stack, Text} from "@chakra-ui/react";
+import {formatDate} from "@/app/util/date-util";
+import {useContext, useEffect, useState} from "react";
+import ParseContext from "@/app/context/parseContext";
+import {Card, CardBody, Heading, Image, Spinner, Stack, Text} from "@chakra-ui/react";
 import ReactMarkdown from "react-markdown";
 import ChakraUIRenderer from "chakra-ui-markdown-renderer";
-import {formatDate} from "@/app/util/date-util";
-
-const article = {
-  slug: "my-first-article",
-  title: "My first article!",
-  cover: "https://i.ibb.co/tqGXfGZ/android-app-cover.png",
-  shortContent: "This is my first article!",
-  content: `
-  This is my **article content**.
-  
-  It can have multiple lines.
-  
-  #### Markdown is awesome!
-  
-  It should be formatted as [Markdown](https://en.wikipedia.org/wiki/Markdown).
-  
-  And here's a list:
-  1. One 
-  2. Two
-  3. Three
-  
-  And an unordered list:
-  - One
-  - Two
-  
-  Here's a picture of a cute cat:
-  
-  ![Cute Cat](https://i.ibb.co/wYnFtpy/cute-cat.png)
-  `,
-  createdAt: "2023-08-01T00:00:00.000Z",
-  updatedAt: "2023-08-01T00:00:00.000Z",
-};
 
 export default function Article({params}) {
+
+  const parse = useContext(ParseContext);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [article, setArticle] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const query = new parse.Query("Article");
+        query.equalTo("slug", params.slug);
+        const article = await query.first();
+        if (!article) {
+          setError("This article does not exist.");
+        } else {
+          setArticle(article);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  if (loading) {
+    return <Spinner size="lg"/>;
+  }
+
+  if (error) {
+    return <Text color="red">{error}</Text>
+  }
+
   return (
-    <Stack>
-      <Card>
-        <CardBody>
-          <Stack>
-            <Heading as="h2" size="lg">{article.title}</Heading>
-            <Text>
-              Posted on {formatDate(article.createdAt)}
-              {article.createdAt !== article.updatedAt ? `, updated on: ${formatDate(article.updatedAt)}` : ""}
-            </Text>
-            <Image src={article.cover} alt={`${article.title} cover`} borderRadius="lg"/>
-            <ReactMarkdown components={ChakraUIRenderer()} children={article.content} skipHtml/>
-          </Stack>
-        </CardBody>
-      </Card>
-    </Stack>
+    <>
+      {article && (
+        <Stack>
+          <Card>
+            <CardBody>
+              <Stack>
+                <Heading as="h2" size="lg">{article.get("title")}</Heading>
+                <Text>Posted on {formatDate(article.get("createdAt"))}</Text>
+                {article.get("cover") && (
+                  <Image src={article.get("cover").url()} alt={`${article.get("title")} cover`} borderRadius="lg"/>
+                )}
+                <ReactMarkdown components={ChakraUIRenderer()} children={article.get("content")} skipHtml/>
+              </Stack>
+            </CardBody>
+          </Card>
+        </Stack>
+      )}
+    </>
   );
 }

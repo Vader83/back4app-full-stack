@@ -16,6 +16,7 @@
     "chakra-ui-markdown-renderer": "^4.1.0",
     "framer-motion": "^10.16.4",
     "next": "latest",
+    "parse": "^4.2.0",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^4.11.0",
