@@ -50,11 +50,10 @@ export default function Article({params}) {
             <CardBody>
               <Stack>
                 <Heading as="h2" size="lg">{article.get("title")}</Heading>
-                <Text>
-                  Posted on {formatDate(article.get("createdAt"))}
-                  {article.get("createdAt") !== article.get("updatedAt") ? `, updated on: ${formatDate(article.get("updatedAt"))}` : ""}
-                </Text>
-                <Image src={article.get("cover")} alt={`${article.get("title")} cover`} borderRadius="lg"/>
+                <Text>Posted on {formatDate(article.get("createdAt"))}</Text>
+                {article.get("cover") && (
+                  <Image src={article.get("cover").url()} alt={`${article.get("title")} cover`} borderRadius="lg"/>
+                )}
                 <ReactMarkdown components={ChakraUIRenderer()} children={article.get("content")} skipHtml/>
               </Stack>
             </CardBody>

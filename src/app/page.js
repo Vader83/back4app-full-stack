@@ -48,7 +48,7 @@ export default function Home() {
                     {article.get("title")}
                   </Link>
                 </Heading>
-                <Text>{article.get("title")}</Text>
+                <Text>{article.get("shortContent")}</Text>
               </Stack>
             </CardBody>
           </Card>
