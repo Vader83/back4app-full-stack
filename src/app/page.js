@@ -14,6 +14,8 @@ export default function Home() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
+    console.log(process.env.NEXT_PUBLIC_TEST);
+    console.log(process.env.EXAMPLE);
     (async () => {
       try {
         const query = new parse.Query("Article");
