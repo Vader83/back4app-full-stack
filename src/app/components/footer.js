@@ -13,7 +13,7 @@ export default function Footer() {
             Click here to learn how to build it!
           </Link>
         </VStack>
-        <Link href="https://github.com/duplxey/back4app-host-frontend-and-backend">
+        <Link href="https://github.com/duplxey/back4app-full-stack">
           <Tag background="black" color="white" py={2}>
             <HStack>
               <FaGithub size="1.5em"/>

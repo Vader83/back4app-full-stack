@@ -5,5 +5,4 @@
 /out/
 /build
 
-.env*.local
 .vercel
