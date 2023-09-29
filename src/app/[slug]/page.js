@@ -32,14 +32,14 @@ export default function Article({params}) {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [params.slug, parse.Query]);
 
   if (loading) {
     return <Spinner size="lg"/>;
   }
 
   if (error) {
-    return <Text color="red">{error}</Text>
+    return <Text color="red">{error}</Text>;
   }
 
   return (

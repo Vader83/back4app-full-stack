@@ -7,7 +7,7 @@ export default function Header() {
       <Container maxW="container.lg" display="flex" justifyContent="space-between" alignItems="center">
         <Heading as="h1" size="xl">
           <Link as={NextLink} href="/">
-            back4app-host-frontend-and-backend
+            back4app-full-stack
           </Link>
         </Heading>
       </Container>
