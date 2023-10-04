@@ -6,11 +6,11 @@ This repository demonstrates how to deploy a full-stack blog app to [Back4app](h
 2. Frontend is created using [Next.js](https://nextjs.org/) and deployed to [Back4app Containers (CaaS)](https://www.back4app.com/container-as-a-service-caas).
 3. Frontend and backend are connected via [Parse SDK](https://parseplatform.org/).
 
-To learn more check out the [article](#).
+To learn more check out the [article](https://blog.back4app.com/how-to-host-frontend-and-backend/).
 
 ## Backend
 
-All the required information is provided in the [article](#).
+All the required information is provided in the [article](https://blog.back4app.com/how-to-host-frontend-and-backend/).
 
 ## Frontend
 
@@ -57,5 +57,5 @@ All the required information is provided in the [article](#).
 
 ### Deployment
 
-All the required information is provided in the [article](#).
+All the required information is provided in the [article](https://blog.back4app.com/how-to-host-frontend-and-backend/).
 
