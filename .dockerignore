@@ -1,0 +1,10 @@
+# .dockerignore
+
+.idea/
+
+/node_modules
+/.next/
+/out/
+/build
+
+.vercel
