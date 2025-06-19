@@ -6,9 +6,13 @@ import {extendTheme} from "@chakra-ui/react";
 import Parse from "parse/dist/parse";
 import ParseContext from "@/app/context/parseContext";
 
+// Parse.initialize(
+//   process.env.NEXT_PUBLIC_PARSE_APPLICATION_ID,
+//   process.env.NEXT_PUBLIC_PARSE_JAVASCRIPT_KEY
+// );
 Parse.initialize(
-  process.env.NEXT_PUBLIC_PARSE_APPLICATION_ID,
-  process.env.NEXT_PUBLIC_PARSE_JAVASCRIPT_KEY
+  "Ex0vjpzOpG9ovWkU6Icdsy69IsBXWg5pFutZLe22",
+  "UkxE5KQa0aJTymwPIhnVAch0UbXNWYQhleUr28nN"
 );
 Parse.serverURL = "https://parseapi.back4app.com/";
 
