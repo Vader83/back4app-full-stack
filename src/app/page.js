@@ -1,49 +1,54 @@
 "use client";
 
 import NextLink from "next/link";
-import {Card, CardBody, Heading, Link, Stack, Text} from "@chakra-ui/react";
-
-const articles = [
-  {
-    "slug": "android",
-    "title": "What is Android?",
-    "shortContent": "Explore the transformative power of Android, the world's most popular mobile operating system. Discover why Android is the preferred choice for billions of users worldwide due to its open-source nature, vast app ecosystem, and unmatched customization options.",
-    "content": "Android, the **pioneer** of modern mobile operating systems, has transformed the way we interact with our devices. With its open-source architecture, **flexible customization**, and a vast ecosystem of apps, Android has become the **go-to choice** for smartphones and tablets globally.\n\nHere are some compelling reasons why Android stands out:\n\n1. **Open Source Freedom**: Android's open-source nature means that it's constantly evolving and improving, thanks to a dedicated community of developers. This openness fosters **innovation** and ensures that Android devices are always at the cutting edge of technology.\n\n2. **Diverse Hardware**: Android runs on a **myriad of devices**, from budget-friendly options to high-end flagships, catering to a wide range of users. This **versatility** allows you to choose a device that suits your needs and budget.\n\n3. **App Ecosystem**: The Google Play Store boasts a massive library of apps, ranging from productivity tools to games. With over 3 million apps to choose from, you can find almost anything you need, making Android a hub of **creativity and productivity**.",
-    "createdAt": "2023-09-26T21:11:53.050Z",
-    "updatedAt": "2023-09-26T21:29:39.423Z"
-  },
-  {
-    "slug": "push-notifications",
-    "title": "What are Push Notifications?",
-    "shortContent": "Experience the impact of push notifications, a powerful tool for engaging users and delivering timely updates to mobile and web applications.",
-    "content": "In today's fast-paced digital landscape, capturing and retaining users' attention is a constant challenge for app developers and businesses. Enter push notifications, a communication tool that has transformed the way we engage with our audience. These bite-sized messages delivered directly to users' devices have become an integral part of mobile and web applications, offering a myriad of benefits for both users and businesses.",
-    "createdAt": "2023-09-26T21:12:28.069Z",
-    "updatedAt": "2023-09-26T21:34:06.330Z"
-  },
-  {
-    "slug": "chatbot",
-    "title": "What is a Chatbot?",
-    "shortContent": "Discover the revolutionary impact of chatbots in enhancing customer service and engagement.",
-    "content": "In the modern digital era, businesses are constantly seeking innovative ways to improve customer interaction and support. Enter **chatbots**, the *game-changing* technology that is reshaping the way companies communicate with their customers. These intelligent virtual assistants are designed to provide instant responses and streamline interactions, making them an invaluable asset for businesses of all sizes.",
-    "createdAt": "2023-09-26T21:13:44.725Z",
-    "updatedAt": "2023-09-26T21:34:00.784Z"
-  },
-];
+import {useContext, useEffect, useState} from "react";
+import ParseContext from "@/app/context/parseContext";
+import {Card, CardBody, Heading, Link, Spinner, Stack, Text} from "@chakra-ui/react";
 
 export default function Home() {
+
+  const parse = useContext(ParseContext);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const query = new parse.Query("Article_");
+        query.descending("createdAt");
+        const articles = await query.find();
+        setArticles(articles);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [parse.Query]);
+
+  if (loading) {
+    return <Spinner size="lg"/>;
+  }
+
+  if (error) {
+    return <Text color="red">{error}</Text>;
+  }
+
   return (
     <>
       <Stack>
         {articles.map((article) => (
-          <Card key={article["slug"]}>
+          <Card key={article.get("slug")}>
             <CardBody>
               <Stack>
                 <Heading size="lg">
-                  <Link as={NextLink} href={article["slug"]}>
-                    {article["title"]}
+                  <Link as={NextLink} href={article.get("slug")}>
+                    {article.get("title")}
                   </Link>
                 </Heading>
-                <Text>{article["shortContent"]}</Text>
+                <Text>{article.get("shortContent")}</Text>
               </Stack>
             </CardBody>
           </Card>
