@@ -5,9 +5,13 @@ import {useContext, useEffect, useState} from "react";
 import ParseContext from "@/app/context/parseContext";
 import {Card, CardBody, Heading, Link, Spinner, Stack, Text} from "@chakra-ui/react";
 
+import Parse from "parse/dist/parse";
+
+
 export default function Home() {
 
   const parse = useContext(ParseContext);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -16,12 +20,16 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       try {
-        const query = new parse.Query("Article_");
+        const Article_ = parse.Object.extend('Article_');
+        const query = new parse.Query(Article_);
+        console.log(query);
         query.descending("createdAt");
         const articles = await query.find();
+        console.log(articles);
         setArticles(articles);
       } catch (error) {
         setError(error);
+        console.log("Error fetching articles:", error);
       } finally {
         setLoading(false);
       }
