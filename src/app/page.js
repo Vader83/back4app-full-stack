@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       try {
-        const Article_ = parse.Object.extend('Article_');
+        const Article_ = parse.Object.extend("Article_");
         const query = new parse.Query(Article_);
         console.log(query);
         query.descending("createdAt");
