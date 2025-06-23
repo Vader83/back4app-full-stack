@@ -14,7 +14,7 @@ Parse.initialize(
   "Ex0vjpzOpG9ovWkU6Icdsy69IsBXWg5pFutZLe22",
   "UkxE5KQa0aJTymwPIhnVAch0UbXNWYQhleUr28nN"
 );
-Parse.serverURL = "https://parseapi.back4app.com/";
+Parse.serverURL = "https://ender-back4app-test.b4a.io/";
 
 export const theme = extendTheme({});
 

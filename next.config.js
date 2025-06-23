@@ -4,6 +4,7 @@ const nextConfig = {};
 if (!process.env.NEXT_PUBLIC_PARSE_APPLICATION_ID) {
   console.log('NEXT_PUBLIC_PARSE_APPLICATION_ID is missing');
 } else {
+  console.log(process.env.NEXT_PUBLIC_PARSE_APPLICATION_ID);
   console.log('NEXT_PUBLIC_PARSE_APPLICATION_ID is set');
 }
 
